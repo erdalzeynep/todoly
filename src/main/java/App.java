@@ -14,42 +14,6 @@ public class App {
         taskStore = readFromFile();
     }
 
-    public int getCountToDo() {
-        int count = 0;
-
-        for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getStatus().equals("todo")) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    public int getCountDone() {
-        int count = 0;
-
-        for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getStatus().equals("done")) {
-                count++;
-
-            }
-        }
-        return count;
-    }
-
-    public void printWelcome() {
-
-        System.out.println(">> Welcome to ToDoLy");
-        System.out.println(">> You have " + getCountToDo() + " taskStore todo and " + getCountDone() + " taskStore are done!");
-        printMessage();
-    }
-
-    private boolean quit(Command command) {
-
-        return true;
-    }
-
-
     public void startApp() {
         printWelcome();
 
@@ -61,10 +25,11 @@ public class App {
         System.out.println("Good bye.");
     }
 
-
     public boolean processCommand(Command command) {
         AddTask addTask = new AddTask(taskStore);
         ListTasks listTasks = new ListTasks(taskStore);
+        EditTask editTask = new EditTask(taskStore);
+
         boolean wantToQuit = false;
         CommandWord commandWord = command.getCommandWord();
 
@@ -82,68 +47,21 @@ public class App {
                 break;
 
             case THREE:
-                editTask();
+                listTasks.showTaskList();
+                editTask.editTask();
                 break;
 
             case FOUR:
-                wantToQuit = quit(command);
+                wantToQuit = true;
                 writeToFile();
                 break;
         }
         return wantToQuit;
     }
 
-    public int getIndex(int id) {
-
-        int index = 0;
-        for (Task t : taskStore) {
-            if (t.getId() == id) {
-                index = taskStore.indexOf(t);
-            }
-        }
-        return index;
-    }
-
-    public void editTask() {
-        System.out.println(">> Pick an option:");
-        System.out.println(">> (1) Update)");
-        System.out.println(">> (2) Mark as Done");
-        System.out.println(">> (3) Remove");
-
-        Scanner scanner2 = new Scanner(System.in);
-        int action = scanner2.nextInt();
-
-        System.out.println("Please enter the ID of task");
-        Scanner scanner1 = new Scanner(System.in);
-        int id = scanner1.nextInt();
-        getIndex(id);
-
-        if (action == 1) {
-
-        } else if (action == 2) {
-            markAsDone(id);
-        } else if (action == 3) {
-            removeTask(id);
-
-        } else {
-            System.out.println("Please enter a valid action code");
-        }
-        printMessage();
-    }
-
-    public void markAsDone(int id) {
-        taskStore.get(getIndex(id)).setStatus("done");
-        successMessage();
-    }
-
-    public void removeTask(int id) {
-        taskStore.remove(getIndex(id));
-        successMessage();
-    }
-
     public void writeToFile() {
         try {
-            FileWriter fileWriter = new FileWriter("/Users/zeynepdal/IdeaProjects/App/src/main/java/TaskList");
+            FileWriter fileWriter = new FileWriter("/Users/zeynepdal/IdeaProjects/ToDoList/src/main/java/TaskList");
             for (Task t : taskStore) {
                 fileWriter.write(t.getId() + " " + t.getProject() + " " + t.getTitle() + " " + t.getDueDate() + " " + t.getStatus());
                 fileWriter.write("\n");
@@ -183,6 +101,28 @@ public class App {
         return task;
     }
 
+    public int getCountToDo() {
+        int count = 0;
+
+        for (int i = 0; i < taskStore.size(); i++) {
+            if (taskStore.get(i).getStatus().equals("todo")) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getCountDone() {
+        int count = 0;
+
+        for (int i = 0; i < taskStore.size(); i++) {
+            if (taskStore.get(i).getStatus().equals("done")) {
+                count++;
+
+            }
+        }
+        return count;
+    }
     public void printMessage() {
         System.out.println("\n");
         System.out.println(">> Pick an option:");
@@ -192,7 +132,11 @@ public class App {
         System.out.println(">> (4) Save and Quit");
     }
 
-    public void successMessage() {
-        System.out.println("Successfull..");
+    public void printWelcome() {
+
+        System.out.println(">> Welcome to ToDoLy");
+        System.out.println(">> You have " + getCountToDo() + " taskStore todo and " + getCountDone() + " taskStore are done!");
+        printMessage();
     }
+
 }
