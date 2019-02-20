@@ -1,5 +1,3 @@
-import java.util.Date;
-
 public class Task {
     private Integer id;
     private String project;
@@ -10,21 +8,17 @@ public class Task {
     public Task(Integer id, String project, String title, String dueDate, String status) {
         this.id = id;
         this.project = project;
-        this.title= title;
-        this.dueDate=dueDate;
-        this.status=status;
-
-
+        this.title = title;
+        this.dueDate = dueDate;
+        this.status = status;
     }
 
     public Task() {
         this.id = null;
         this.project = null;
-        this.title= null;
-        this.dueDate=null;
-        this.status=null;
-
-
+        this.title = null;
+        this.dueDate = null;
+        this.status = null;
     }
 
     public String getDueDate() {
@@ -58,7 +52,6 @@ public class Task {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
 
     public String getStatus() {

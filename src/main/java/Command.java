@@ -1,12 +1,16 @@
-import java.util.Scanner;
 public class Command {
-    Scanner reader = new Scanner(System.in);
-    public String getCommand(){
-        System.out.print(">");
-        return reader.nextLine();
+    private CommandWord commandWord;
+
+
+    public Command(CommandWord commandWord) {
+        this.commandWord = commandWord;
 
     }
 
+
+    public CommandWord getCommandWord() {
+        return commandWord;
+    }
 
 
 }
