@@ -1,11 +1,14 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class App {
 
+    public static void main(String[] args) {
+        App td=new App();
+        td.startApp();
+    }
+
+    private static final String resourceFile = "tasklist.ser";
     private Parser parser;
     private ArrayList<Task> taskStore;
 
@@ -15,8 +18,8 @@ public class App {
     }
 
     public void startApp() {
-        printWelcome();
 
+        printWelcome();
         boolean finished = false;
         while (!finished) {
             Command command = parser.getCommand();
@@ -29,7 +32,6 @@ public class App {
         AddTask addTask = new AddTask(taskStore);
         ListTasks listTasks = new ListTasks(taskStore);
         EditTask editTask = new EditTask(taskStore);
-
         boolean wantToQuit = false;
         CommandWord commandWord = command.getCommandWord();
 
@@ -61,49 +63,40 @@ public class App {
 
     public void writeToFile() {
         try {
-            FileWriter fileWriter = new FileWriter("/Users/zeynepdal/IdeaProjects/ToDoList/src/main/java/TaskList");
-            for (Task t : taskStore) {
-                fileWriter.write(t.getId() + " " + t.getProject() + " " + t.getTitle() + " " + t.getDueDate() + " " + t.getStatus());
-                fileWriter.write("\n");
-            }
-            fileWriter.close();
-        } catch (IOException e) {
+
+            File file = getResourceFile(resourceFile);
+            FileOutputStream fileOut = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+            out.writeObject(taskStore);
+
+            out.close();
+            fileOut.close();
+
+        } catch (IOException i) {
+            i.printStackTrace();
         }
     }
 
     public ArrayList<Task> readFromFile() {
         ArrayList<Task> taskStore = new ArrayList<>();
-
-        File file = new File("/Users/zeynepdal/IdeaProjects/ToDoList/src/main/java/TaskList");
         try {
-            Scanner fileReader = new Scanner(file);
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                if (!line.trim().equals("")) {
-                    taskStore.add(parseFileLine(line));
-                }
-
+            File file = getResourceFile(resourceFile);
+            FileInputStream fileIn = new FileInputStream(file);
+            if (fileIn.available()>0) {
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                taskStore = (ArrayList<Task>) in.readObject();
+                in.close();
             }
-        } catch (IOException e) {
-            System.out.println("Something went wrong while reading from file");
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException i) {
+            i.printStackTrace();
         }
         return taskStore;
     }
 
-    public Task parseFileLine(String line) {
-        Task task = new Task();
-        String[] array = line.split(" ");
-        task.setId(Integer.valueOf(array[0]));
-        task.setProject(array[1]);
-        task.setTitle(array[2]);
-        task.setDueDate(array[3]);
-        task.setStatus(array[4]);
-        return task;
-    }
-
     public int getCountToDo() {
         int count = 0;
-
         for (int i = 0; i < taskStore.size(); i++) {
             if (taskStore.get(i).getStatus().equals("todo")) {
                 count++;
@@ -114,29 +107,35 @@ public class App {
 
     public int getCountDone() {
         int count = 0;
-
         for (int i = 0; i < taskStore.size(); i++) {
             if (taskStore.get(i).getStatus().equals("done")) {
                 count++;
-
             }
         }
         return count;
     }
+
     public void printMessage() {
-        System.out.println("\n");
+
         System.out.println(">> Pick an option:");
+        System.out.println("===============================================");
         System.out.println(">> (1) Show Task ListTasks (by date or project)");
         System.out.println(">> (2) AddTask New Task");
         System.out.println(">> (3) Edit Task (update, mark as done, remove)");
         System.out.println(">> (4) Save and Quit");
+        System.out.println("===============================================");
     }
 
     public void printWelcome() {
-
         System.out.println(">> Welcome to ToDoLy");
-        System.out.println(">> You have " + getCountToDo() + " taskStore todo and " + getCountDone() + " taskStore are done!");
+        System.out.println();
+        System.out.println(">> You have " + getCountToDo() + " taskStore TODO and " + getCountDone() + " taskStore are DONE!");
+        System.out.println();
         printMessage();
     }
-
+    public File getResourceFile(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
+        return file;
+    }
 }

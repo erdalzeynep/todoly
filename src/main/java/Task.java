@@ -1,17 +1,9 @@
-public class Task {
+public class Task implements java.io.Serializable {
     private Integer id;
     private String project;
     private String title;
     private String dueDate;
     private String status;
-
-    public Task(Integer id, String project, String title, String dueDate, String status) {
-        this.id = id;
-        this.project = project;
-        this.title = title;
-        this.dueDate = dueDate;
-        this.status = status;
-    }
 
     public Task() {
         this.id = null;
@@ -53,7 +45,6 @@ public class Task {
         this.title = title;
     }
 
-
     public String getStatus() {
         return status;
     }
@@ -61,4 +52,17 @@ public class Task {
     public void setStatus(String status) {
         this.status = status;
     }
+
+//    @Override
+//    public String toString(){
+//        return id + "=======" + title;
+//    }
+//
+//    @Override
+//    public int compareTo(){
+//        if(date.copareTo(date) == 0 )
+//            compareTo(title)
+//    }
+
+
 }

@@ -22,12 +22,15 @@ public class AddTask {
         System.out.println("Due Date > ");
         scanner = new Scanner(System.in);
         task.setDueDate(scanner.nextLine());
-
         task.setStatus("todo");
-        Integer lastTaskId = taskStore.get(taskStore.size() - 1).getId();
-        task.setId(lastTaskId + 1);
+        if (taskStore.size()==0){
+            task.setId(1);
+        }
+        else {
+            Integer lastTaskId = taskStore.get(taskStore.size() - 1).getId();
+            task.setId(lastTaskId + 1);
+        }
         taskStore.add(task);
-
         System.out.println("Successfully added");
         printMessage();
     }

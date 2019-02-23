@@ -14,27 +14,21 @@ public class EditTask {
 
     public void editTask() {
         editMessage();
-
         Scanner scanner1 = new Scanner(System.in);
         int action = scanner1.nextInt();
-
         System.out.println("Please enter the ID of task");
         Scanner scanner2 = new Scanner(System.in);
         int id = scanner2.nextInt();
         getIndex(id);
-
         if (action == 1) {
             updateTask(id);
-
         } else if (action == 2) {
             markAsDone(id);
         } else if (action == 3) {
             removeTask(id);
-
         } else {
             System.out.println("Please enter a valid action code");
         }
-
     }
 
     private void updateTask(int id) {
@@ -75,24 +69,14 @@ public class EditTask {
         }
         return index;
     }
-    public void printMessage() {
-        System.out.println("\n");
-        System.out.println(">> Pick an option:");
-        System.out.println(">> (1) Show Task ListTasks (by date or project)");
-        System.out.println(">> (2) AddTask New Task");
-        System.out.println(">> (3) Edit Task (update, mark as done, remove)");
-        System.out.println(">> (4) Save and Quit");
-    }
 
     public void successMessage() {
         System.out.println("Successfull..");
     }
 
     public void editMessage() {
-        System.out.println(">> Pick an option:");
-        System.out.println(">> (1) Update");
-        System.out.println(">> (2) Mark as Done");
-        System.out.println(">> (3) Remove");
+        System.out.println("==============================================================");
+        System.out.println(">> Pick an option: (1) Update / (2) Mark as Done / (3) Remove ");
     }
 
 }

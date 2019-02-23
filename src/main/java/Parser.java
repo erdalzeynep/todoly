@@ -4,7 +4,6 @@ public class Parser
     private CommandWords commands;
     private Scanner reader;
 
-
     public Parser()
     {
         commands = new CommandWords();
@@ -13,23 +12,17 @@ public class Parser
 
     public Command getCommand()
     {
-        String inputLine;
+      //  String inputLine;
         Integer command1 = null;
-
-
         System.out.print("> ");
 
-        inputLine = reader.nextLine();
+    //    inputLine = reader.nextLine();
 
-        Scanner tokenizer = new Scanner(inputLine);
+        Scanner tokenizer = new Scanner(System.in);
         if(tokenizer.hasNext()) {
             command1 = tokenizer.nextInt();
 
         }
-
         return new Command(commands.getCommandWord(command1));
     }
-
-
-
 }
