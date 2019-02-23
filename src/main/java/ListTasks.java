@@ -11,7 +11,8 @@ public class ListTasks {
 
     public void showTaskList() {
 
-        System.out.println("TASK LIST:");
+        System.out.println("TASK LIST: (ID-PROJECT-TITLE-DUE DATE-STATUS)");
+        System.out.println("=============================================");
         for (int i = 0; i < taskStore.size(); i++) {
             Task currentTask = taskStore.get(i);
             System.out.println(currentTask.getId() + " " + currentTask.getProject() + " " + currentTask.getTitle() + " " + currentTask.getDueDate() + " " + currentTask.getStatus());
@@ -19,5 +20,3 @@ public class ListTasks {
 
     }
 }
-
-
