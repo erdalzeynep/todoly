@@ -1,3 +1,7 @@
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 import java.util.ArrayList;
@@ -43,15 +47,22 @@ public class EditTask {
         String title = scanner2.nextLine();
         taskStore.get(getIndex(id)).setTitle(title);
 
-        System.out.println("Due Date > ");
+        System.out.println("Due Date (Format should be : YYYY/MM/DD) > ");
         Scanner scanner3 = new Scanner(System.in);
-        String dueDate = scanner3.nextLine();
+        String inputDueDate = scanner3.nextLine();
+        Date dueDate = null;
+        DateFormat dueDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            dueDate = dueDateFormat.parse(inputDueDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         taskStore.get(getIndex(id)).setDueDate(dueDate);
 
     }
 
     public void markAsDone(int id) {
-        taskStore.get(getIndex(id)).setStatus("done");
+        taskStore.get(getIndex(id)).setIsDone(true);
         successMessage();
     }
 
