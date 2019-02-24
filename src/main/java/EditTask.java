@@ -58,7 +58,6 @@ public class EditTask {
             e.printStackTrace();
         }
         taskStore.get(getIndex(id)).setDueDate(dueDate);
-
     }
 
     public void markAsDone(int id) {
@@ -89,5 +88,4 @@ public class EditTask {
         System.out.println("==============================================================");
         System.out.println(">> Pick an option: (1) Update / (2) Mark as Done / (3) Remove ");
     }
-
 }

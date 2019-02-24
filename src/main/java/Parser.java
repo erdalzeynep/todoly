@@ -12,16 +12,11 @@ public class Parser
 
     public Command getCommand()
     {
-      //  String inputLine;
         Integer command1 = null;
         System.out.print("> ");
-
-    //    inputLine = reader.nextLine();
-
         Scanner tokenizer = new Scanner(System.in);
         if(tokenizer.hasNext()) {
             command1 = tokenizer.nextInt();
-
         }
         return new Command(commands.getCommandWord(command1));
     }

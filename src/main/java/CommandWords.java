@@ -1,13 +1,8 @@
 import java.util.HashMap;
 public class CommandWords
 {
-    // A mapping between a command word and the CommandWord
-    // associated with it.
     private HashMap<Integer, CommandWord> validCommands;
 
-    /**
-     * Constructor - initialise the command words.
-     */
     public CommandWords()
     {
         validCommands = new HashMap<>();
@@ -16,7 +11,6 @@ public class CommandWords
         validCommands.put(3, CommandWord.THREE);
         validCommands.put(4, CommandWord.FOUR);
     }
-
 
     public CommandWord getCommandWord(Integer commandWord)
     {
@@ -28,8 +22,4 @@ public class CommandWords
             return CommandWord.UNKNOWN;
         }
     }
-
-
-
-
 }
