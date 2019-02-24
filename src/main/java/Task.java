@@ -1,19 +1,22 @@
+import java.util.Date;
+
 public class Task implements java.io.Serializable {
+    private static final long serialVersionUID = 4264367449031469962L;
     private Integer id;
     private String project;
     private String title;
-    private String dueDate;
-    private String status;
+    private Date dueDate;
+    private boolean isDone;
 
     public Task() {
         this.id = null;
         this.project = null;
         this.title = null;
         this.dueDate = null;
-        this.status = null;
+        this.isDone = false;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
@@ -29,7 +32,7 @@ public class Task implements java.io.Serializable {
         return title;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -45,24 +48,12 @@ public class Task implements java.io.Serializable {
         this.title = title;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean getIsDone() {
+        return isDone;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
     }
-
-//    @Override
-//    public String toString(){
-//        return id + "=======" + title;
-//    }
-//
-//    @Override
-//    public int compareTo(){
-//        if(date.copareTo(date) == 0 )
-//            compareTo(title)
-//    }
-
-
 }
+

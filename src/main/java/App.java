@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class App {
-
     public static void main(String[] args) {
         App td=new App();
         td.startApp();
+
     }
 
     private static final String resourceFile = "tasklist.ser";
@@ -98,7 +98,7 @@ public class App {
     public int getCountToDo() {
         int count = 0;
         for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getStatus().equals("todo")) {
+            if (taskStore.get(i).getIsDone()==false) {
                 count++;
             }
         }
@@ -108,7 +108,7 @@ public class App {
     public int getCountDone() {
         int count = 0;
         for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getStatus().equals("done")) {
+            if (taskStore.get(i).getIsDone()==true) {
                 count++;
             }
         }
