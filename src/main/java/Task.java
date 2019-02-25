@@ -1,3 +1,5 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task implements java.io.Serializable {
@@ -54,6 +56,24 @@ public class Task implements java.io.Serializable {
 
     public void setIsDone(boolean isDone) {
         this.isDone = isDone;
+    }
+
+    @Override
+    public String toString() {
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String dueDate = dateFormat.format(this.getDueDate());
+        String status;
+
+        if (this.getIsDone()) {
+            status = "DONE";
+        } else {
+            status = "TODO";
+        }
+
+        String task = this.getId() + " " + this.getProject() + " " + this.getTitle() + " " + dueDate + " " + status;
+        return task;
+
     }
 }
 
