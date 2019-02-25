@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
@@ -24,6 +25,9 @@ public class App {
         while (!finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            if (finished==false){
+                viewAvailableActions();
+            }
         }
         System.out.println("Good bye.");
     }
@@ -49,7 +53,6 @@ public class App {
                 break;
 
             case THREE:
-                listTasks.showTaskList();
                 editTask.editTask();
                 break;
 
@@ -115,23 +118,26 @@ public class App {
         return count;
     }
 
-    public void printMessage() {
+    public void viewAvailableActions() {
 
+        System.out.println("============================================================");
+        System.out.println(">> (1) Show Tasks (2) AddTask (3) Edit Task 4) Save and Quit");
+        System.out.println("============================================================");
+    }
+
+    public void printWelcome() {
+        System.out.println("===============================================");
+        System.out.println(">> Welcome to ToDoLy");
+        System.out.println();
+        System.out.println(">> You have " + getCountToDo() + " task TODO and " + getCountDone() + " task DONE!");
+        System.out.println();
         System.out.println(">> Pick an option:");
         System.out.println("===============================================");
-        System.out.println(">> (1) Show Task ListTasks (by date or project)");
+        System.out.println(">> (1) Show Task List (by date or project)");
         System.out.println(">> (2) AddTask New Task");
         System.out.println(">> (3) Edit Task (update, mark as done, remove)");
         System.out.println(">> (4) Save and Quit");
         System.out.println("===============================================");
-    }
-
-    public void printWelcome() {
-        System.out.println(">> Welcome to ToDoLy");
-        System.out.println();
-        System.out.println(">> You have " + getCountToDo() + " taskStore TODO and " + getCountDone() + " taskStore are DONE!");
-        System.out.println();
-        printMessage();
     }
     public File getResourceFile(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();

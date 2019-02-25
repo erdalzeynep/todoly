@@ -13,7 +13,6 @@ public class Parser
     public Command getCommand()
     {
         Integer command1 = null;
-        System.out.print("> ");
         Scanner tokenizer = new Scanner(System.in);
         if(tokenizer.hasNext()) {
             command1 = tokenizer.nextInt();

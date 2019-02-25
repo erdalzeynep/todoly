@@ -46,15 +46,6 @@ public class AddTask {
 
         taskStore.add(task);
         System.out.println("Successfully added");
-        printMessage();
     }
 
-    public void printMessage() {
-        System.out.println("\n");
-        System.out.println(">> Pick an option:");
-        System.out.println(">> (1) Show Task ListTasks (by date or project)");
-        System.out.println(">> (2) AddTask New Task");
-        System.out.println(">> (3) Edit Task (update, mark as done, remove)");
-        System.out.println(">> (4) Save and Quit");
-    }
 }
