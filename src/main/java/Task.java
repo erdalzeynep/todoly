@@ -2,7 +2,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Task implements java.io.Serializable {
+public class Task implements java.io.Serializable, Comparable<Task> {
     private static final long serialVersionUID = 4264367449031469962L;
     private Integer id;
     private String project;
@@ -73,7 +73,13 @@ public class Task implements java.io.Serializable {
 
         String task = this.getId() + " " + this.getProject() + " " + this.getTitle() + " " + dueDate + " " + status;
         return task;
+    }
 
+    @Override
+    public int compareTo(Task o) {
+        if (getDueDate() == null || o.getDueDate() == null) {
+            return 0;
+        }
+        return getDueDate().compareTo(o.getDueDate());
     }
 }
-

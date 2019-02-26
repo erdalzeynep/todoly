@@ -1,12 +1,10 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
         App td=new App();
         td.startApp();
-
     }
 
     private static final String resourceFile = "tasklist.ser";
