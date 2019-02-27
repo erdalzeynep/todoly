@@ -5,9 +5,7 @@ import todoly.model.Task;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class AddTask {
     private List<Task> taskStore;
@@ -27,7 +25,7 @@ public class AddTask {
         scanner = new Scanner(System.in);
         task.setTitle(scanner.nextLine());
 
-        System.out.println("Due Date (Format should be :"+ Task.DATE_FORMAT +")") ;
+        System.out.println("Due Date (Format should be :" + Task.DATE_FORMAT + ")");
         scanner = new Scanner(System.in);
         String inputDueDate = scanner.nextLine();
         Date dueDate = null;
@@ -41,12 +39,12 @@ public class AddTask {
 
         task.setIsDone(false);
 
-        if (taskStore.size() == 0) {
-            task.setId(1);
-        } else {
-            Integer lastTaskId = taskStore.get(taskStore.size() - 1).getId();
-            task.setId(lastTaskId + 1);
+        List<Integer> list = new ArrayList<>();
+        for (Task t : taskStore) {
+            list.add(t.getId());
         }
+        Integer maxID = list.stream().reduce(Integer::max).orElse(0);
+        task.setId(maxID + 1);
 
         taskStore.add(task);
         System.out.println("Successfully added");
