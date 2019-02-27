@@ -1,3 +1,7 @@
+package todoly.actions;
+
+import todoly.model.Task;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,7 +27,7 @@ public class AddTask {
         scanner = new Scanner(System.in);
         task.setTitle(scanner.nextLine());
 
-        System.out.println("Due Date (Format should be :"+Task.DATE_FORMAT +")") ;
+        System.out.println("Due Date (Format should be :"+ Task.DATE_FORMAT +")") ;
         scanner = new Scanner(System.in);
         String inputDueDate = scanner.nextLine();
         Date dueDate = null;

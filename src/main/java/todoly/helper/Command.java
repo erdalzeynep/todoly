@@ -1,3 +1,5 @@
+package todoly.helper;
+
 public class Command {
     private CommandWord commandWord;
 
