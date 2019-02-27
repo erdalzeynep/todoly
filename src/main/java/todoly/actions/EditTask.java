@@ -85,7 +85,6 @@ public class EditTask {
     }
 
     public void editMessage() {
-        System.out.println("==============================================================");
         System.out.println(">> Pick an option: (1) Update / (2) Mark as Done / (3) Remove ");
     }
 }

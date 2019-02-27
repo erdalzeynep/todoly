@@ -23,11 +23,11 @@ public class AddTask {
         scanner = new Scanner(System.in);
         task.setTitle(scanner.nextLine());
 
-        System.out.println("Due Date (Format should be : YYYY/MM/DD)> ");
+        System.out.println("Due Date (Format should be :"+Task.DATE_FORMAT +")") ;
         scanner = new Scanner(System.in);
         String inputDueDate = scanner.nextLine();
         Date dueDate = null;
-        DateFormat dueDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dueDateFormat = new SimpleDateFormat(Task.DATE_FORMAT);
         try {
             dueDate = dueDateFormat.parse(inputDueDate);
         } catch (ParseException e) {

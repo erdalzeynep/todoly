@@ -34,7 +34,7 @@ public class ListTasks {
             for (Task t : taskStore) {
                 if (t.getProject().equals(enteredProject)) {
                     System.out.println(t.toString());
-                    records++;
+                    records += 1;
                 }
             }
             if (records == 0) {
