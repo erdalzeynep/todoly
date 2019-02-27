@@ -1,6 +1,12 @@
+package todoly;
+
 import todoly.actions.AddTask;
 import todoly.actions.EditTask;
 import todoly.actions.ListTasks;
+import todoly.helper.Command;
+import todoly.helper.CommandWord;
+import todoly.helper.Parser;
+import todoly.model.Task;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -123,7 +129,7 @@ public class App {
     public void viewAvailableActions() {
 
         System.out.println("============================================================");
-        System.out.println(">> (1) Show Tasks (2) todoly.actions.AddTask (3) Edit Task 4) Save and Quit");
+        System.out.println(">> (1) Show Tasks (2) AddTask (3) Edit Task 4) Save and Quit");
         System.out.println("============================================================");
     }
 
@@ -136,7 +142,7 @@ public class App {
         System.out.println(">> Pick an option:");
         System.out.println("===============================================");
         System.out.println(">> (1) Show Task List (by date or project)");
-        System.out.println(">> (2) todoly.actions.AddTask New Task");
+        System.out.println(">> (2) AddTask New Task");
         System.out.println(">> (3) Edit Task (update, mark as done, remove)");
         System.out.println(">> (4) Save and Quit");
         System.out.println("===============================================");
