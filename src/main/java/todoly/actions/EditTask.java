@@ -1,16 +1,10 @@
 package todoly.actions;
-
+import todoly.helper.DateHelper;
 import todoly.model.Task;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class EditTask {
 
@@ -44,24 +38,24 @@ public class EditTask {
         System.out.println("Project > ");
         Scanner scanner1 = new Scanner(System.in);
         String project = scanner1.nextLine();
-        taskStore.get(getIndex(id)).setProject(project);
 
         System.out.println("Title > ");
         Scanner scanner2 = new Scanner(System.in);
         String title = scanner2.nextLine();
-        taskStore.get(getIndex(id)).setTitle(title);
 
         System.out.println("Due Date (Format should be : YYYY/MM/DD) > ");
         Scanner scanner3 = new Scanner(System.in);
         String inputDueDate = scanner3.nextLine();
-        Date dueDate = null;
-        DateFormat dueDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            dueDate = dueDateFormat.parse(inputDueDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Date dueDate = DateHelper.toDate(inputDueDate);
+
+        if (dueDate != null) {
+            taskStore.get(getIndex(id)).setProject(project);
+            taskStore.get(getIndex(id)).setTitle(title);
+            taskStore.get(getIndex(id)).setDueDate(dueDate);
         }
-        taskStore.get(getIndex(id)).setDueDate(dueDate);
+        else{
+            System.out.println("Updating is not successful..");
+        }
     }
 
     public void markAsDone(int id) {

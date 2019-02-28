@@ -1,5 +1,4 @@
 package todoly.actions;
-
 import todoly.model.Task;
 
 import java.text.DateFormat;
@@ -24,9 +23,10 @@ public class ListTasks {
         if (input == 1) {
             if (taskStore.size() == 0) {
                 System.out.println("There is no task to list");
+            } else {
+                orderByDate(taskStore);
+                printList(taskStore);
             }
-            orderByDate(taskStore);
-            printList(taskStore);
 
         } else if (input == 2) {
             List<Task> filteredList = new ArrayList<>();
@@ -34,7 +34,7 @@ public class ListTasks {
             String enteredProject = scanner.next();
             int records = 0;
             orderByDate(taskStore);
-            for ( Task t : taskStore) {
+            for (Task t : taskStore) {
                 if (t.getProject().equals(enteredProject)) {
                     filteredList.add(t);
                     records += 1;
@@ -51,7 +51,7 @@ public class ListTasks {
         Collections.sort(taskStore);
     }
 
-    public void printList(List<Task> taskStore){
+    public void printList(List<Task> taskStore) {
         DateFormat dateFormat = new SimpleDateFormat(Task.DATE_FORMAT);
         String dueDate;
         String status;
@@ -68,7 +68,7 @@ public class ListTasks {
             }
             dueDate = dateFormat.format(taskStore.get(i).getDueDate());
             System.out.format("%-10s%-40s%-40s%-12s%5s",
-                    taskStore.get(i).getId().toString(),taskStore.get(i).getProject(),taskStore.get(i).getTitle(),dueDate,status );
+                    taskStore.get(i).getId().toString(), taskStore.get(i).getProject(), taskStore.get(i).getTitle(), dueDate, status);
             System.out.println();
         }
         System.out.println("\n\n");
