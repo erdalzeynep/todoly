@@ -1,6 +1,6 @@
 package todoly.actions;
-import todoly.model.Task;
 
+import todoly.model.Task;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

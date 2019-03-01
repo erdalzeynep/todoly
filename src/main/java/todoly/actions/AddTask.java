@@ -7,7 +7,6 @@ public class AddTask {
     private List<Task> taskStore;
 
     public AddTask(List<Task> taskStore) {
-
         this.taskStore = taskStore;
     }
 
@@ -26,7 +25,7 @@ public class AddTask {
         String inputDueDate = scanner.nextLine();
 
         Date dueDate = DateHelper.toDate(inputDueDate);
-        if (dueDate != null) {
+        if (dueDate != null && !DateHelper.isDatePassed(dueDate)) {
             task.setDueDate(dueDate);
             task.setIsDone(false);
 
@@ -38,9 +37,15 @@ public class AddTask {
             task.setId(maxID + 1);
             taskStore.add(task);
             System.out.println("Successfully added!");
-        } else {
+        }
+        else if (DateHelper.isDatePassed(dueDate)){
+            System.out.println("Adding is not successful, Due Date should not be a passed date");
+        }
+        else if (dueDate == null){
+            System.out.println("Due Date invalid");
+        }
+        else {
             System.out.println("Adding is not successful..");
         }
-
     }
 }

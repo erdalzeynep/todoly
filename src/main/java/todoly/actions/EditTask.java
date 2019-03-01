@@ -24,11 +24,14 @@ public class EditTask {
         getIndex(id);
         if (action == 1) {
             updateTask(id);
-        } else if (action == 2) {
+        }
+        else if (action == 2) {
             markAsDone(id);
-        } else if (action == 3) {
+        }
+        else if (action == 3) {
             removeTask(id);
-        } else {
+        }
+        else {
             System.out.println("Please enter a valid action code");
         }
     }
@@ -43,16 +46,18 @@ public class EditTask {
         Scanner scanner2 = new Scanner(System.in);
         String title = scanner2.nextLine();
 
-        System.out.println("Due Date (Format should be : YYYY/MM/DD) > ");
+        System.out.println("Due Date (Format should be :"+Task.DATE_FORMAT+") > ");
         Scanner scanner3 = new Scanner(System.in);
         String inputDueDate = scanner3.nextLine();
         Date dueDate = DateHelper.toDate(inputDueDate);
 
-        if (dueDate != null) {
+        if (dueDate != null && !DateHelper.isDatePassed(dueDate)) {
             taskStore.get(getIndex(id)).setProject(project);
             taskStore.get(getIndex(id)).setTitle(title);
             taskStore.get(getIndex(id)).setDueDate(dueDate);
         }
+        else if (DateHelper.isDatePassed(dueDate)){
+            System.out.println("Adding is not successful, Due Date should not be a passed date");}
         else{
             System.out.println("Updating is not successful..");
         }

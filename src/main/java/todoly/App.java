@@ -34,13 +34,14 @@ public class App {
             Command command = parser.getCommand();
             finished = processCommand(command);
             if (finished == false) {
-                viewAvailableActions();
+                printAvailableActions();
             }
         }
         System.out.println("Good bye.");
     }
 
     public boolean processCommand(Command command) {
+
         AddTask addTask = new AddTask(taskStore);
         ListTasks listTasks = new ListTasks(taskStore);
         EditTask editTask = new EditTask(taskStore);
@@ -49,7 +50,7 @@ public class App {
 
         switch (commandWord) {
             case UNKNOWN:
-                System.out.println("I don't know what you mean...");
+                System.out.println("Unknown command...");
                 break;
 
             case ONE:
@@ -74,17 +75,14 @@ public class App {
 
     public void writeToFile() {
         try {
-
             File file = getResourceFile(RESOURCE_FILE);
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
             out.writeObject(taskStore);
-
             out.close();
             fileOut.close();
-
-        } catch (IOException i) {
+        }
+        catch (IOException i) {
             i.printStackTrace();
         }
     }
@@ -100,7 +98,8 @@ public class App {
                 in.close();
             }
             fileIn.close();
-        } catch (IOException | ClassNotFoundException i) {
+        }
+        catch (IOException | ClassNotFoundException i) {
             i.printStackTrace();
         }
         return taskStore;
@@ -109,7 +108,7 @@ public class App {
     public int getCountToDo() {
         int count = 0;
         for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getIsDone() == false) {
+            if (!taskStore.get(i).getIsDone()) {
                 count++;
             }
         }
@@ -119,14 +118,14 @@ public class App {
     public int getCountDone() {
         int count = 0;
         for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getIsDone() == true) {
+            if (taskStore.get(i).getIsDone()) {
                 count++;
             }
         }
         return count;
     }
 
-    public void viewAvailableActions() {
+    public void printAvailableActions() {
 
         System.out.println("============================================================");
         System.out.println(">> (1) Show Tasks (2) AddTask (3) Edit Task 4) Save and Quit");
