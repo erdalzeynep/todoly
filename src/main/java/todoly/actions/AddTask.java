@@ -34,11 +34,11 @@ public class AddTask {
                 task.setDueDate(dueDate);
                 task.setIsDone(false);
 
-                List<Integer> list = new ArrayList<>();
-                for (Task t : taskStore) {
-                    list.add(t.getId());
-                }
-                Integer maxID = list.stream().reduce(Integer::max).orElse(0);
+                Integer maxID = taskStore.stream()
+                        .map(Task::getId)
+                        .reduce(Integer::max)
+                        .orElse(0);
+
                 task.setId(maxID + 1);
                 taskStore.add(task);
                 System.out.println("Successfully added!");

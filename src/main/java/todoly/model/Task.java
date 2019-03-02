@@ -75,8 +75,7 @@ public class Task implements java.io.Serializable, Comparable<Task> {
             status = "TODO";
         }
 
-        String task = this.getId() + " " + this.getProject() + " " + this.getTitle() + " " + dueDate + " " + status;
-        return task;
+        return this.getId() + " " + this.getProject() + " " + this.getTitle() + " " + dueDate + " " + status;
     }
 
     @Override
