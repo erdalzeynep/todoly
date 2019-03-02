@@ -1,6 +1,8 @@
 package todoly.actions;
 
+import todoly.helper.DateHelper;
 import todoly.model.Task;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class ListTasks {
     }
 
     public void printList(List<Task> taskStore) {
-        DateFormat dateFormat = new SimpleDateFormat(Task.DATE_FORMAT);
+        DateFormat dateFormat = new SimpleDateFormat(DateHelper.DATE_FORMAT);
         String dueDate;
         String status;
         System.out.println("===============================================================================================================");

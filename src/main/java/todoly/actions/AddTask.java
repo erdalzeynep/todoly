@@ -1,6 +1,8 @@
 package todoly.actions;
+
 import todoly.helper.DateHelper;
 import todoly.model.Task;
+
 import java.util.*;
 
 public class AddTask {
@@ -20,31 +22,28 @@ public class AddTask {
         scanner = new Scanner(System.in);
         task.setTitle(scanner.nextLine());
 
-        System.out.println("Due Date (Format should be :" + Task.DATE_FORMAT + ")");
+        System.out.println("Due Date (Format should be :" + DateHelper.DATE_FORMAT + ")");
         scanner = new Scanner(System.in);
         String inputDueDate = scanner.nextLine();
 
         Date dueDate = DateHelper.toDate(inputDueDate);
-        if (dueDate != null && !DateHelper.isDatePassed(dueDate)) {
-            task.setDueDate(dueDate);
-            task.setIsDone(false);
+        if (dueDate != null) {
+            if (DateHelper.isDatePassed(dueDate)) {
+                DateHelper.datePassedMessage();
+            } else {
+                task.setDueDate(dueDate);
+                task.setIsDone(false);
 
-            List<Integer> list = new ArrayList<>();
-            for (Task t : taskStore) {
-                list.add(t.getId());
+                List<Integer> list = new ArrayList<>();
+                for (Task t : taskStore) {
+                    list.add(t.getId());
+                }
+                Integer maxID = list.stream().reduce(Integer::max).orElse(0);
+                task.setId(maxID + 1);
+                taskStore.add(task);
+                System.out.println("Successfully added!");
             }
-            Integer maxID = list.stream().reduce(Integer::max).orElse(0);
-            task.setId(maxID + 1);
-            taskStore.add(task);
-            System.out.println("Successfully added!");
-        }
-        else if (DateHelper.isDatePassed(dueDate)){
-            System.out.println("Adding is not successful, Due Date should not be a passed date");
-        }
-        else if (dueDate == null){
-            System.out.println("Due Date invalid");
-        }
-        else {
+        } else {
             System.out.println("Adding is not successful..");
         }
     }
