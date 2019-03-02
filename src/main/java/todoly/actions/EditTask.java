@@ -36,32 +36,36 @@ public class EditTask {
     }
 
     private void updateTask(int id) {
+        Task task = getTaskById(id);
 
-        System.out.println("Project > ");
-        Scanner scanner1 = new Scanner(System.in);
-        String project = scanner1.nextLine();
+        if (task == null) {
+            System.out.println("Task does not exist with given id");
+        } else {
+            System.out.println("Project > ");
+            Scanner scanner1 = new Scanner(System.in);
+            String project = scanner1.nextLine();
 
-        System.out.println("Title > ");
-        Scanner scanner2 = new Scanner(System.in);
-        String title = scanner2.nextLine();
+            System.out.println("Title > ");
+            Scanner scanner2 = new Scanner(System.in);
+            String title = scanner2.nextLine();
 
-        System.out.println("Due Date (Format should be :" + DateHelper.DATE_FORMAT + ") > ");
-        Scanner scanner3 = new Scanner(System.in);
-        String inputDueDate = scanner3.nextLine();
-        Date dueDate = DateHelper.toDate(inputDueDate);
+            System.out.println("Due Date (Format should be :" + DateHelper.DATE_FORMAT + ") > ");
+            Scanner scanner3 = new Scanner(System.in);
+            String inputDueDate = scanner3.nextLine();
+            Date dueDate = DateHelper.toDate(inputDueDate);
 
-        if (dueDate != null) {
-            if (DateHelper.isDatePassed(dueDate)) {
-                DateHelper.datePassedMessage();
+            if (dueDate != null) {
+                if (DateHelper.isDatePassed(dueDate)) {
+                    DateHelper.datePassedMessage();
+                } else {
+                    task.setProject(project);
+                    task.setTitle(title);
+                    task.setDueDate(dueDate);
+                    System.out.println("Update is successful");
+                }
             } else {
-                taskStore.get(getIndex(id)).setProject(project);
-                taskStore.get(getIndex(id)).setTitle(title);
-                taskStore.get(getIndex(id)).setDueDate(dueDate);
-                System.out.println("Update is successful");
+                System.out.println("Updating is not successful..");
             }
-        }
-        else {
-            System.out.println("Updating is not successful..");
         }
     }
 
@@ -76,13 +80,11 @@ public class EditTask {
     }
 
     public int getIndex(int id) {
-        int index = 0;
-        for (Task t : taskStore) {
-            if (t.getId() == id) {
-                index = taskStore.indexOf(t);
-            }
-        }
-        return index;
+        return taskStore.indexOf(getTaskById(id));
+    }
+
+    private Task getTaskById(int id) {
+        return taskStore.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
     }
 
     public void successMessage() {

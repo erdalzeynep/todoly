@@ -10,6 +10,7 @@ import todoly.model.Task;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class App {
     public static void main(String[] args) {
@@ -21,12 +22,12 @@ public class App {
     private Parser parser;
     private ArrayList<Task> taskStore;
 
-    public App() {
+    private App() {
         parser = new Parser();
         taskStore = readFromFile();
     }
 
-    public void startApp() {
+    private void startApp() {
 
         printWelcome();
         boolean finished = false;
@@ -40,7 +41,7 @@ public class App {
         System.out.println("Good bye.");
     }
 
-    public boolean processCommand(Command command) {
+    private boolean processCommand(Command command) {
 
         AddTask addTask = new AddTask(taskStore);
         ListTasks listTasks = new ListTasks(taskStore);
@@ -73,9 +74,9 @@ public class App {
         return wantToQuit;
     }
 
-    public void writeToFile() {
+    private void writeToFile() {
         try {
-            File file = getResourceFile(RESOURCE_FILE);
+            File file = getResourceFile();
             FileOutputStream fileOut = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(taskStore);
@@ -87,10 +88,10 @@ public class App {
         }
     }
 
-    public ArrayList<Task> readFromFile() {
+    private ArrayList<Task> readFromFile() {
         ArrayList<Task> taskStore = new ArrayList<>();
         try {
-            File file = getResourceFile(RESOURCE_FILE);
+            File file = getResourceFile();
             FileInputStream fileIn = new FileInputStream(file);
             if (fileIn.available() > 0) {
                 ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -105,34 +106,22 @@ public class App {
         return taskStore;
     }
 
-    public int getCountToDo() {
-        int count = 0;
-        for (int i = 0; i < taskStore.size(); i++) {
-            if (!taskStore.get(i).getIsDone()) {
-                count++;
-            }
-        }
-        return count;
+    private int getCountToDo() {
+      return (int) taskStore.stream().filter(a->!a.getIsDone()).count();
     }
 
-    public int getCountDone() {
-        int count = 0;
-        for (int i = 0; i < taskStore.size(); i++) {
-            if (taskStore.get(i).getIsDone()) {
-                count++;
-            }
-        }
-        return count;
+    private int getCountDone() {
+        return (int) taskStore.stream().filter(Task::getIsDone).count();
     }
 
-    public void printAvailableActions() {
+    private void printAvailableActions() {
 
         System.out.println("============================================================");
         System.out.println(">> (1) Show Tasks (2) AddTask (3) Edit Task 4) Save and Quit");
         System.out.println("============================================================");
     }
 
-    public void printWelcome() {
+    private void printWelcome() {
         System.out.println("===============================================");
         System.out.println(">> Welcome to ToDoLy");
         System.out.println();
@@ -147,9 +136,8 @@ public class App {
         System.out.println("===============================================");
     }
 
-    public File getResourceFile(String fileName) {
+    private File getResourceFile() {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(fileName).getFile());
-        return file;
+        return new File(Objects.requireNonNull(classLoader.getResource(App.RESOURCE_FILE)).getFile());
     }
 }
