@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditTask {
+public class EditTask implements Action {
 
     private List<Task> taskStore;
 
@@ -16,7 +16,8 @@ public class EditTask {
         this.taskStore = taskStore;
     }
 
-    public void editTask() {
+    @Override
+    public void doAction() {
         editMessage();
         Scanner scanner1 = new Scanner(System.in);
         int action = scanner1.nextInt();

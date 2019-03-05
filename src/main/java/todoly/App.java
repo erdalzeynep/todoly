@@ -1,16 +1,13 @@
 package todoly;
 
-import todoly.actions.AddTask;
-import todoly.actions.EditTask;
-import todoly.actions.ListTasks;
-import todoly.helper.Command;
-import todoly.helper.CommandWord;
-import todoly.helper.Parser;
+import todoly.actions.*;
 import todoly.model.Task;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
@@ -18,59 +15,55 @@ public class App {
         td.startApp();
     }
 
+    private HashMap<String, Action> validActions;
     private static final String RESOURCE_FILE = "tasklist.ser";
-    private Parser parser;
     private ArrayList<Task> taskStore;
 
     private App() {
-        parser = new Parser();
         taskStore = readFromFile();
+
+        validActions = new HashMap<>();
+        validActions.put("1", new ListTasks(taskStore));
+        validActions.put("2", new AddTask(taskStore));
+        validActions.put("3", new EditTask(taskStore));
     }
 
     private void startApp() {
 
         printWelcome();
         boolean finished = false;
+
         while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
-            if (finished == false) {
+
+            String enteredCommand = null;
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.hasNext()) {
+                enteredCommand = scanner.next();
+            }
+
+            finished = processCommand(enteredCommand);
+            if (!finished) {
                 printAvailableActions();
             }
         }
         System.out.println("Good bye.");
     }
 
-    private boolean processCommand(Command command) {
+    private boolean processCommand(String enteredCommand) {
 
-        AddTask addTask = new AddTask(taskStore);
-        ListTasks listTasks = new ListTasks(taskStore);
-        EditTask editTask = new EditTask(taskStore);
         boolean wantToQuit = false;
-        CommandWord commandWord = command.getCommandWord();
-
-        switch (commandWord) {
-            case UNKNOWN:
-                System.out.println("Unknown command...");
-                break;
-
-            case ONE:
-                listTasks.showTaskList();
-                break;
-
-            case TWO:
-                addTask.addTask();
-                break;
-
-            case THREE:
-                editTask.editTask();
-                break;
-
-            case FOUR:
-                wantToQuit = true;
-                writeToFile();
-                break;
+        if (!enteredCommand.equals("4")) {
+            Action action = validActions.get(enteredCommand);
+            if (action != null) {
+                action.doAction();
+            } else {
+                System.out.println("Unknown command");
+            }
+        } else {
+            wantToQuit = true;
+            writeToFile();
         }
+
         return wantToQuit;
     }
 
@@ -82,8 +75,7 @@ public class App {
             out.writeObject(taskStore);
             out.close();
             fileOut.close();
-        }
-        catch (IOException i) {
+        } catch (IOException i) {
             i.printStackTrace();
         }
     }
@@ -99,15 +91,14 @@ public class App {
                 in.close();
             }
             fileIn.close();
-        }
-        catch (IOException | ClassNotFoundException i) {
+        } catch (IOException | ClassNotFoundException i) {
             i.printStackTrace();
         }
         return taskStore;
     }
 
     private int getCountToDo() {
-      return (int) taskStore.stream().filter(a->!a.getIsDone()).count();
+        return (int) taskStore.stream().filter(a -> !a.getIsDone()).count();
     }
 
     private int getCountDone() {

@@ -5,14 +5,16 @@ import todoly.model.Task;
 
 import java.util.*;
 
-public class AddTask {
+public class AddTask implements Action{
+
     private List<Task> taskStore;
 
     public AddTask(List<Task> taskStore) {
         this.taskStore = taskStore;
     }
 
-    public void addTask() {
+    @Override
+    public void doAction() {
         Task task = new Task();
         System.out.println("Project > ");
         Scanner scanner = new Scanner(System.in);

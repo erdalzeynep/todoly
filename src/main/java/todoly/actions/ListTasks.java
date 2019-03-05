@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class ListTasks {
+public class ListTasks implements Action{
 
     private static final DateFormat DATE_FORMATTER = new SimpleDateFormat(DateHelper.DATE_FORMAT);
 
@@ -20,7 +20,8 @@ public class ListTasks {
         this.taskStore = taskStore;
     }
 
-    public void showTaskList() {
+    @Override
+    public void doAction() {
         System.out.println(">> (1) Show All Tasks (2) By Project");
         Scanner scanner = new Scanner(System.in);
         int input = scanner.nextInt();
@@ -45,6 +46,7 @@ public class ListTasks {
                 System.out.println("There is no task related with the project: " + enteredProject);
             }
         }
+
     }
 
     public void orderByDate(List<Task> taskStore) {
