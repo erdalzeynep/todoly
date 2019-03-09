@@ -97,12 +97,20 @@ public class App {
         return taskStore;
     }
 
-    private int getCountToDo() {
-        return (int) taskStore.stream().filter(a -> !a.getIsDone()).count();
-    }
-
-    private int getCountDone() {
-        return (int) taskStore.stream().filter(Task::getIsDone).count();
+    private int[] getCount() {
+        int[] counts = new int[2];
+        int doneCount = 0;
+        int toDoCount = 0;
+        for (Task t : taskStore) {
+            if (t.getIsDoneBoolean()) {
+                doneCount++;
+            } else {
+                toDoCount++;
+            }
+        }
+        counts[0] = toDoCount;
+        counts[1] = doneCount;
+        return counts;
     }
 
     private void printAvailableActions() {
@@ -116,7 +124,7 @@ public class App {
         System.out.println("===============================================");
         System.out.println(">> Welcome to ToDoLy");
         System.out.println();
-        System.out.println(">> You have " + getCountToDo() + " task TODO and " + getCountDone() + " task DONE!");
+        System.out.println(">> You have " + getCount()[0] + " task TODO and " + getCount()[1] + " task DONE!");
         System.out.println();
         System.out.println(">> Pick an option:");
         System.out.println("===============================================");

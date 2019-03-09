@@ -19,12 +19,10 @@ public class EditTask implements Action {
     @Override
     public void doAction() {
         editMessage();
-        Scanner scanner1 = new Scanner(System.in);
-        int action = scanner1.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        int action = scanner.nextInt();
         System.out.println("Please enter the ID of task");
-        Scanner scanner2 = new Scanner(System.in);
-        int id = scanner2.nextInt();
-        getIndex(id);
+        int id = scanner.nextInt();
         if (action == 1) {
             updateTask(id);
         } else if (action == 2) {
@@ -43,16 +41,14 @@ public class EditTask implements Action {
             System.out.println("Task does not exist with given id");
         } else {
             System.out.println("Project > ");
-            Scanner scanner1 = new Scanner(System.in);
-            String project = scanner1.nextLine();
+            Scanner scanner = new Scanner(System.in);
+            String project = scanner.nextLine();
 
             System.out.println("Title > ");
-            Scanner scanner2 = new Scanner(System.in);
-            String title = scanner2.nextLine();
+            String title = scanner.nextLine();
 
             System.out.println("Due Date (Format should be :" + DateHelper.DATE_FORMAT + ") > ");
-            Scanner scanner3 = new Scanner(System.in);
-            String inputDueDate = scanner3.nextLine();
+            String inputDueDate = scanner.nextLine();
             Date dueDate = DateHelper.toDate(inputDueDate);
 
             if (dueDate != null) {
@@ -71,17 +67,13 @@ public class EditTask implements Action {
     }
 
     public void markAsDone(int id) {
-        taskStore.get(getIndex(id)).setIsDone(true);
+        getTaskById(id).setIsDone(true);
         successMessage();
     }
 
     public void removeTask(int id) {
-        taskStore.remove(getIndex(id));
+        taskStore.remove(taskStore.indexOf(getTaskById(id)));
         successMessage();
-    }
-
-    public int getIndex(int id) {
-        return taskStore.indexOf(getTaskById(id));
     }
 
     private Task getTaskById(int id) {
@@ -89,7 +81,7 @@ public class EditTask implements Action {
     }
 
     public void successMessage() {
-        System.out.println("Successfull..");
+        System.out.println("Successful..");
     }
 
     public void editMessage() {

@@ -5,7 +5,7 @@ import todoly.model.Task;
 
 import java.util.*;
 
-public class AddTask implements Action{
+public class AddTask implements Action {
 
     private List<Task> taskStore;
 
@@ -15,17 +15,20 @@ public class AddTask implements Action{
 
     @Override
     public void doAction() {
-        Task task = new Task();
+
+        Integer maxID = taskStore.stream()
+                .map(Task::getId)
+                .reduce(Integer::max)
+                .orElse(0);
+
         System.out.println("Project > ");
         Scanner scanner = new Scanner(System.in);
-        task.setProject(scanner.nextLine());
+        String project = scanner.nextLine();
 
         System.out.println("Title > ");
-        scanner = new Scanner(System.in);
-        task.setTitle(scanner.nextLine());
+        String title = scanner.nextLine();
 
         System.out.println("Due Date (Format should be :" + DateHelper.DATE_FORMAT + ")");
-        scanner = new Scanner(System.in);
         String inputDueDate = scanner.nextLine();
 
         Date dueDate = DateHelper.toDate(inputDueDate);
@@ -33,16 +36,7 @@ public class AddTask implements Action{
             if (DateHelper.isDatePassed(dueDate)) {
                 DateHelper.datePassedMessage();
             } else {
-                task.setDueDate(dueDate);
-                task.setIsDone(false);
-
-                Integer maxID = taskStore.stream()
-                        .map(Task::getId)
-                        .reduce(Integer::max)
-                        .orElse(0);
-
-                task.setId(maxID + 1);
-                taskStore.add(task);
+                taskStore.add(new Task(maxID + 1, project, title, dueDate, false));
                 System.out.println("Successfully added!");
             }
         } else {

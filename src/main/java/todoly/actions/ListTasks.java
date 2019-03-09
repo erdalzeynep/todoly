@@ -1,18 +1,13 @@
 package todoly.actions;
 
-import todoly.helper.DateHelper;
 import todoly.model.Task;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class ListTasks implements Action{
-
-    private static final DateFormat DATE_FORMATTER = new SimpleDateFormat(DateHelper.DATE_FORMAT);
+public class ListTasks implements Action {
 
     private List<Task> taskStore;
 
@@ -30,7 +25,7 @@ public class ListTasks implements Action{
             if (taskStore.size() == 0) {
                 System.out.println("There is no task to list");
             } else {
-                orderByDate(taskStore);
+                Collections.sort(taskStore);
                 printList(taskStore);
             }
 
@@ -38,7 +33,7 @@ public class ListTasks implements Action{
             List<Task> filteredList;
             System.out.println("Enter the project :");
             String enteredProject = scanner.next();
-            orderByDate(taskStore);
+            Collections.sort(taskStore);
             filteredList = taskStore.stream().filter(task -> task.getProject().equals(enteredProject)).collect(Collectors.toList());
             int records = filteredList.size();
             printList(filteredList);
@@ -49,21 +44,14 @@ public class ListTasks implements Action{
 
     }
 
-    public void orderByDate(List<Task> taskStore) {
-        Collections.sort(taskStore);
-    }
-
     public void printList(List<Task> taskStore) {
         System.out.println("===============================================================================================================");
         System.out.printf("%-10s%-40s%-40s%-12s%5s", "ID", "PROJECT", "TITLE", "DUE DATE", "STATUS");
         System.out.println();
         System.out.println("===============================================================================================================");
 
-        taskStore.forEach(task -> {
-            String status = task.getIsDone() ? "DONE" : "TODO";
-            String dueDate = DATE_FORMATTER.format(task.getDueDate());
-            System.out.format("%-10s%-40s%-40s%-12s%5s\n", task.getId(), task.getProject(), task.getTitle(), dueDate, status);
-        });
+        taskStore.forEach(task -> System.out.format("%-10s%-40s%-40s%-12s%5s\n", task.getId(), task.getProject(), task.getTitle(),
+                task.getDueDateAsString(), task.getIsDoneString()));
         System.out.println("\n\n");
     }
 }
