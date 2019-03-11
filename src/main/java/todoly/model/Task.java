@@ -1,10 +1,9 @@
 package todoly.model;
 
-import todoly.helper.DateHelper;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static todoly.helper.DateHelper.getDueDateAsString;
+import static todoly.helper.TaskHelper.getIsDoneAsString;
 
 public class Task implements java.io.Serializable, Comparable<Task> {
     private static final long serialVersionUID = 4264367449031469962L;
@@ -26,12 +25,6 @@ public class Task implements java.io.Serializable, Comparable<Task> {
         return dueDate;
     }
 
-    public String getDueDateAsString() {
-        DateFormat DATE_FORMATTER = new SimpleDateFormat(DateHelper.DATE_FORMAT);
-        String dueDate = DATE_FORMATTER.format(this.getDueDate());
-        return dueDate;
-    }
-
     public String getProject() {
         return project;
     }
@@ -44,13 +37,8 @@ public class Task implements java.io.Serializable, Comparable<Task> {
         return title;
     }
 
-    public boolean getIsDoneBoolean() {
+    public boolean getIsDone() {
         return isDone;
-    }
-
-    public String getIsDoneString() {
-        String status = this.getIsDoneBoolean() ? "DONE" : "TODO";
-        return status;
     }
 
     public void setDueDate(Date dueDate) {
@@ -77,10 +65,7 @@ public class Task implements java.io.Serializable, Comparable<Task> {
     @Override
     public String toString() {
 
-        DateFormat dateFormat = new SimpleDateFormat(DateHelper.DATE_FORMAT);
-        String dueDate = dateFormat.format(this.getDueDate());
-
-        return this.getId() + " " + this.getProject() + " " + this.getTitle() + " " + dueDate + " " + getIsDoneString();
+        return this.getId() + " " + this.getProject() + " " + this.getTitle() + " " + getDueDateAsString(this) + " " + getIsDoneAsString(this);
     }
 
     @Override

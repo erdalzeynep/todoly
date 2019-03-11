@@ -1,5 +1,6 @@
 package todoly.actions;
 
+import todoly.App;
 import todoly.helper.DateHelper;
 import todoly.model.Task;
 
@@ -15,11 +16,7 @@ public class AddTask implements Action {
 
     @Override
     public void doAction() {
-
-        Integer maxID = taskStore.stream()
-                .map(Task::getId)
-                .reduce(Integer::max)
-                .orElse(0);
+        App.maxID++;
 
         System.out.println("Project > ");
         Scanner scanner = new Scanner(System.in);
@@ -36,7 +33,7 @@ public class AddTask implements Action {
             if (DateHelper.isDatePassed(dueDate)) {
                 DateHelper.datePassedMessage();
             } else {
-                taskStore.add(new Task(maxID + 1, project, title, dueDate, false));
+                taskStore.add(new Task(App.maxID, project, title, dueDate, false));
                 System.out.println("Successfully added!");
             }
         } else {

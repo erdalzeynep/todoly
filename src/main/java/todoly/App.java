@@ -10,6 +10,9 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class App {
+
+    public static Integer maxID;
+
     public static void main(String[] args) {
         App td = new App();
         td.startApp();
@@ -20,7 +23,13 @@ public class App {
     private ArrayList<Task> taskStore;
 
     private App() {
-        taskStore = readFromFile();
+
+        taskStore = readTasksFromFile();
+
+        maxID = taskStore.stream()
+                .map(Task::getId)
+                .reduce(Integer::max)
+                .orElse(0);
 
         validActions = new HashMap<>();
         validActions.put("1", new ListTasks(taskStore));
@@ -51,7 +60,7 @@ public class App {
 
     private boolean processCommand(String enteredCommand) {
 
-        boolean wantToQuit = false;
+       boolean wantToQuit = false;
         if (!enteredCommand.equals("4")) {
             Action action = validActions.get(enteredCommand);
             if (action != null) {
@@ -61,13 +70,13 @@ public class App {
             }
         } else {
             wantToQuit = true;
-            writeToFile();
+            writeTasksToFile();
         }
 
         return wantToQuit;
     }
 
-    private void writeToFile() {
+    private void writeTasksToFile() {
         try {
             File file = getResourceFile();
             FileOutputStream fileOut = new FileOutputStream(file);
@@ -80,7 +89,7 @@ public class App {
         }
     }
 
-    private ArrayList<Task> readFromFile() {
+    private ArrayList<Task> readTasksFromFile() {
         ArrayList<Task> taskStore = new ArrayList<>();
         try {
             File file = getResourceFile();
@@ -97,12 +106,12 @@ public class App {
         return taskStore;
     }
 
-    private int[] getCount() {
+    private int[] getTaskCountByStatus() {
         int[] counts = new int[2];
         int doneCount = 0;
         int toDoCount = 0;
         for (Task t : taskStore) {
-            if (t.getIsDoneBoolean()) {
+            if (t.getIsDone()) {
                 doneCount++;
             } else {
                 toDoCount++;
@@ -124,7 +133,7 @@ public class App {
         System.out.println("===============================================");
         System.out.println(">> Welcome to ToDoLy");
         System.out.println();
-        System.out.println(">> You have " + getCount()[0] + " task TODO and " + getCount()[1] + " task DONE!");
+        System.out.println(">> You have " + getTaskCountByStatus()[0] + " task TODO and " + getTaskCountByStatus()[1] + " task DONE!");
         System.out.println();
         System.out.println(">> Pick an option:");
         System.out.println("===============================================");

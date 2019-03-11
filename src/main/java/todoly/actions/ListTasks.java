@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import static todoly.helper.DateHelper.*;
+import static todoly.helper.TaskHelper.getIsDoneAsString;
+
 public class ListTasks implements Action {
 
     private List<Task> taskStore;
@@ -26,7 +29,7 @@ public class ListTasks implements Action {
                 System.out.println("There is no task to list");
             } else {
                 Collections.sort(taskStore);
-                printList(taskStore);
+                printTaskList(taskStore);
             }
 
         } else if (input == 2) {
@@ -36,22 +39,23 @@ public class ListTasks implements Action {
             Collections.sort(taskStore);
             filteredList = taskStore.stream().filter(task -> task.getProject().equals(enteredProject)).collect(Collectors.toList());
             int records = filteredList.size();
-            printList(filteredList);
+            printTaskList(filteredList);
             if (records == 0) {
                 System.out.println("There is no task related with the project: " + enteredProject);
             }
         }
-
     }
 
-    public void printList(List<Task> taskStore) {
+    public void printTaskList(List<Task> taskStore) {
         System.out.println("===============================================================================================================");
         System.out.printf("%-10s%-40s%-40s%-12s%5s", "ID", "PROJECT", "TITLE", "DUE DATE", "STATUS");
         System.out.println();
         System.out.println("===============================================================================================================");
 
-        taskStore.forEach(task -> System.out.format("%-10s%-40s%-40s%-12s%5s\n", task.getId(), task.getProject(), task.getTitle(),
-                task.getDueDateAsString(), task.getIsDoneString()));
+        taskStore.forEach(task -> {
+            System.out.format("%-10s%-40s%-40s%-12s%5s\n", task.getId(), task.getProject(), task.getTitle(),
+                    getDueDateAsString(task), getIsDoneAsString(task));
+        });
         System.out.println("\n\n");
     }
 }
