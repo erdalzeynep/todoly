@@ -52,10 +52,8 @@ public class ListTasks implements Action {
         System.out.println();
         System.out.println("===============================================================================================================");
 
-        taskStore.forEach(task -> {
-            System.out.format("%-10s%-40s%-40s%-12s%5s\n", task.getId(), task.getProject(), task.getTitle(),
-                    getDueDateAsString(task), getIsDoneAsString(task));
-        });
+        taskStore.forEach(task -> System.out.format("%-10s%-40s%-40s%-12s%5s\n", task.getId(), task.getProject(), task.getTitle(),
+                getDueDateAsString(task), getIsDoneAsString(task)));
         System.out.println("\n\n");
     }
 }

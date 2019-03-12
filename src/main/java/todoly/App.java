@@ -22,7 +22,7 @@ public class App {
     private static final String RESOURCE_FILE = "tasklist.ser";
     private ArrayList<Task> taskStore;
 
-    private App() {
+    public App() {
 
         taskStore = readTasksFromFile();
 

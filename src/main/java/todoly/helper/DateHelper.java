@@ -33,6 +33,7 @@ public class DateHelper {
         Date dateOfToday = new Date();
         return inputDate.compareTo(dateOfToday) < 0;
     }
+
     public static void datePassedMessage(){
         System.out.println("Operation is not successful, Due Date should not be a passed date");
     }
