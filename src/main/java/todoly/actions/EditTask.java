@@ -56,7 +56,7 @@ public class EditTask implements Action {
 
             if (dueDate != null) {
                 if (DateHelper.isDatePassed(dueDate)) {
-                    DateHelper.datePassedMessage();
+                    System.out.println("Operation is not successful, Due Date should not be a passed date");
                 } else {
                     task.setProject(project);
                     task.setTitle(title);

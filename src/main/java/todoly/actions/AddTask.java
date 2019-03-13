@@ -9,17 +9,22 @@ import java.util.*;
 public class AddTask implements Action {
 
     private List<Task> taskStore;
+    private final Scanner scanner;
 
-    public AddTask(List<Task> taskStore) {
+    public AddTask(List<Task> taskStore, Scanner scanner) {
         this.taskStore = taskStore;
+        this.scanner = scanner;
     }
 
+    /**
+     * Gets Project name, Title and Due date from user, generates an id for task
+     * and sets status to-do by default. Creates a task object with these information and adds it to task list.
+     */
     @Override
     public void doAction() {
         App.maxID++;
 
         System.out.println("Project > ");
-        Scanner scanner = new Scanner(System.in);
         String project = scanner.nextLine();
 
         System.out.println("Title > ");
@@ -31,7 +36,7 @@ public class AddTask implements Action {
         Date dueDate = DateHelper.toDate(inputDueDate);
         if (dueDate != null) {
             if (DateHelper.isDatePassed(dueDate)) {
-                DateHelper.datePassedMessage();
+                System.out.println("Operation is not successful, Due Date should not be a passed date");
             } else {
                 taskStore.add(new Task(App.maxID, project, title, dueDate, false));
                 System.out.println("Successfully added!");

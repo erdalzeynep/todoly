@@ -15,7 +15,9 @@ public class DateHelper {
 
         return DATE_FORMATTER.format(task.getDueDate());
     }
-
+    /**
+     * Converts given String type date to Date format.
+     */
     public static Date toDate(String enteredDate) {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         dateFormat.setLenient(false);
@@ -29,12 +31,11 @@ public class DateHelper {
         return date;
     }
 
+    /**
+     * Compares given date to today's date and if it is earlier than today returns true
+     */
     public static boolean isDatePassed(Date inputDate) {
         Date dateOfToday = new Date();
         return inputDate.compareTo(dateOfToday) < 0;
-    }
-
-    public static void datePassedMessage(){
-        System.out.println("Operation is not successful, Due Date should not be a passed date");
     }
 }

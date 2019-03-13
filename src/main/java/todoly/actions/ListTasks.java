@@ -33,11 +33,10 @@ public class ListTasks implements Action {
             }
 
         } else if (input == 2) {
-            List<Task> filteredList;
             System.out.println("Enter the project :");
             String enteredProject = scanner.next();
             Collections.sort(taskStore);
-            filteredList = taskStore.stream().filter(task -> task.getProject().equals(enteredProject)).collect(Collectors.toList());
+            List<Task> filteredList = taskStore.stream().filter(task -> task.getProject().equals(enteredProject)).collect(Collectors.toList());
             int records = filteredList.size();
             printTaskList(filteredList);
             if (records == 0) {

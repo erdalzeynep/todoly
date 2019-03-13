@@ -1,5 +1,6 @@
 import org.junit.Test;
 import todoly.helper.DateHelper;
+import todoly.model.Task;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,8 +10,17 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 import static todoly.helper.DateHelper.DATE_FORMAT;
+import static todoly.helper.DateHelper.DATE_FORMATTER;
 
 public class DateHelperTest {
+
+    @Test
+    public void shouldGetTheDueDateAsString() {
+        Date date = new Date();
+        String dateString = DATE_FORMATTER.format(date);
+        Task task = new Task(21, "project test", "title test", date, true);
+        assertEquals(dateString, DateHelper.getDueDateAsString(task));
+    }
 
     @Test
     public void shouldMarkItAsPassedIfDateIsOlderThanNow() {
@@ -35,7 +45,7 @@ public class DateHelperTest {
     }
 
     @Test
-    public void shouldBeNullWhenEnterAnInvalidDate(){
+    public void shouldBeNullWhenEnterAnInvalidDate() {
         assertNull(DateHelper.toDate("21212"));
     }
 }
