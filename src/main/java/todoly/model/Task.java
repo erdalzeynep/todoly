@@ -7,7 +7,7 @@ import static todoly.helper.TaskHelper.getIsDoneAsString;
 
 public class Task implements java.io.Serializable, Comparable<Task> {
     private static final long serialVersionUID = 4264367449031469962L;
-    private Integer id;
+    private final Integer id;
     private String project;
     private String title;
     private Date dueDate;
@@ -45,10 +45,6 @@ public class Task implements java.io.Serializable, Comparable<Task> {
         this.dueDate = dueDate;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public void setProject(String project) {
         this.project = project;
     }
@@ -56,7 +52,6 @@ public class Task implements java.io.Serializable, Comparable<Task> {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     public void setIsDone(boolean isDone) {
         this.isDone = isDone;

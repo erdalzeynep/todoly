@@ -86,5 +86,4 @@ public class EditTask implements Action {
     private Task getTaskById(int id) {
         return taskStore.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
     }
-
 }

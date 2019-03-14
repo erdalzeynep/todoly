@@ -1,5 +1,7 @@
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import todoly.App;
 import todoly.helper.DateHelper;
 import todoly.helper.TaskHelper;
@@ -9,22 +11,25 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
 public class AppTest {
 
-    private App app = new App();
-    private static final String RESOURCE_FILE = "tasklist.ser";
+    private File tempFile;
+    private App app;
+
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Before
-    public void setUp() {
-        app.taskStore.clear();
+    public void setUp() throws IOException {
+        tempFile = testFolder.newFile("temp_data_file");
+        app = new App(tempFile);
     }
 
     @Test
-    public void shouldAddAndPersistTaskWithValidInput() throws IOException {
+    public void shouldAddAndPersistTaskWithValidInput() {
         String projectName = "Test Project";
         String title = "Test Title";
         String dueDate = "02-02-2050";
@@ -39,7 +44,7 @@ public class AppTest {
         assertEquals(title, task.getTitle());
         assertEquals(DateHelper.toDate(dueDate), task.getDueDate());
 
-        List<Task> persistedTasks = TaskHelper.readTasksFromFile(getResourceFile());
+        List<Task> persistedTasks = TaskHelper.readTasksFromFile(tempFile);
         assertEquals(1, persistedTasks.size());
         Task persistedTask = persistedTasks.get(0);
         assertEquals(projectName, persistedTask.getProject());
@@ -48,7 +53,7 @@ public class AppTest {
     }
 
     @Test
-    public void shouldUpdateAndPersistTaskWithValidInput() throws IOException {
+    public void shouldUpdateAndPersistTaskWithValidInput() {
         String projectName = "Test Project";
         String title = "Test Title";
         String dueDate = "02-02-2050";
@@ -68,14 +73,9 @@ public class AppTest {
         assertEquals(newDueDate, DateHelper.getDueDateAsString(task));
     }
 
-    private void addTask(String projectName, String title, String dueDate) throws IOException {
+    private void addTask(String projectName, String title, String dueDate){
         String input = 2 + "\n" + projectName + "\n" + title + "\n" + dueDate + "\n" + 4 + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
         app.startApp();
-    }
-
-    private File getResourceFile() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(Objects.requireNonNull(classLoader.getResource(RESOURCE_FILE)).getFile());
     }
 }

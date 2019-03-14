@@ -1,31 +1,39 @@
 package todoly;
 
-import todoly.actions.*;
+import todoly.actions.Action;
+import todoly.actions.AddTask;
+import todoly.actions.EditTask;
+import todoly.actions.ListTasks;
+import todoly.helper.FileHelper;
 import todoly.helper.TaskHelper;
 import todoly.model.Task;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class App {
 
     public static Integer maxID;
+    private final File dataFile;
     private Scanner scanner;
 
     public static void main(String[] args) throws IOException {
-        App td = new App();
+        File dataFile = FileHelper.getDataFile();
+        App td = new App(dataFile);
         td.startApp();
     }
 
     private HashMap<String, Action> validActions;
-    private static final String RESOURCE_FILE = "tasklist.ser";
     public ArrayList<Task> taskStore;
 
-    public App() {
-        taskStore = TaskHelper.readTasksFromFile(getResourceFile());
+    public App(File dataFile) {
+        this.dataFile = dataFile;
+        taskStore = TaskHelper.readTasksFromFile(this.dataFile);
 
         maxID = taskStore.stream()
                 .map(Task::getId)
@@ -33,7 +41,7 @@ public class App {
                 .orElse(0);
     }
 
-    public void startApp() throws IOException {
+    public void startApp() {
 
         this.scanner = new Scanner(System.in);
 
@@ -46,9 +54,9 @@ public class App {
         boolean finished = false;
 
         while (!finished) {
-            String enteredCommand ;
+            String enteredCommand;
 
-                //enteredCommand = scanner.readLine();
+            //enteredCommand = scanner.readLine();
             enteredCommand = scanner.nextLine();
 
             finished = processCommand(enteredCommand);
@@ -65,7 +73,7 @@ public class App {
     /**
      * Processes given command.
      */
-    private boolean processCommand(String enteredCommand) throws IOException {
+    private boolean processCommand(String enteredCommand) {
 
         boolean wantToQuit = false;
         if (!enteredCommand.equals("4")) {
@@ -84,8 +92,7 @@ public class App {
 
     private void writeTasksToFile() {
         try {
-            File file = getResourceFile();
-            FileOutputStream fileOut = new FileOutputStream(file);
+            FileOutputStream fileOut = new FileOutputStream(dataFile);
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(taskStore);
             out.close();
@@ -129,10 +136,5 @@ public class App {
         System.out.println(">> (3) Edit Task (update, mark as done, remove)");
         System.out.println(">> (4) Save and Quit");
         System.out.println("===============================================");
-    }
-
-    private File getResourceFile() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        return new File(Objects.requireNonNull(classLoader.getResource(App.RESOURCE_FILE)).getFile());
     }
 }
