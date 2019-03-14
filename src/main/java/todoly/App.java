@@ -15,7 +15,7 @@ public class App {
     public static Integer maxID;
     private Scanner scanner;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         App td = new App();
         td.startApp();
     }
@@ -31,25 +31,26 @@ public class App {
                 .map(Task::getId)
                 .reduce(Integer::max)
                 .orElse(0);
-
     }
 
-    public void startApp() {
+    public void startApp() throws IOException {
+
         this.scanner = new Scanner(System.in);
 
         validActions = new HashMap<>();
-        validActions.put("1", new ListTasks(taskStore));
+        validActions.put("1", new ListTasks(taskStore, scanner));
         validActions.put("2", new AddTask(taskStore, scanner));
-        validActions.put("3", new EditTask(taskStore));
+        validActions.put("3", new EditTask(taskStore, scanner));
 
         printMenuOptions();
         boolean finished = false;
 
         while (!finished) {
-            String enteredCommand = null;
-            if (scanner.hasNextLine()) {
-                enteredCommand = scanner.nextLine();
-            }
+            String enteredCommand ;
+
+                //enteredCommand = scanner.readLine();
+            enteredCommand = scanner.nextLine();
+
             finished = processCommand(enteredCommand);
 
             if (!finished) {
@@ -64,7 +65,7 @@ public class App {
     /**
      * Processes given command.
      */
-    private boolean processCommand(String enteredCommand) {
+    private boolean processCommand(String enteredCommand) throws IOException {
 
         boolean wantToQuit = false;
         if (!enteredCommand.equals("4")) {
@@ -78,7 +79,6 @@ public class App {
             wantToQuit = true;
             writeTasksToFile();
         }
-
         return wantToQuit;
     }
 

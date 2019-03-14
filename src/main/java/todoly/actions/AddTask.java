@@ -4,7 +4,9 @@ import todoly.App;
 import todoly.helper.DateHelper;
 import todoly.model.Task;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class AddTask implements Action {
 
@@ -21,7 +23,7 @@ public class AddTask implements Action {
      * and sets status to-do by default. Creates a task object with these information and adds it to task list.
      */
     @Override
-    public void doAction() {
+    public void doAction(){
         App.maxID++;
 
         System.out.println("Project > ");
