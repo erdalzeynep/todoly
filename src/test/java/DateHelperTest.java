@@ -9,13 +9,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static org.junit.Assert.*;
-import static todoly.helper.DateHelper.DATE_FORMAT;
-import static todoly.helper.DateHelper.DATE_FORMATTER;
+import static todoly.helper.DateHelper.*;
 
 public class DateHelperTest {
 
     @Test
-    public void shouldGetTheDueDateAsString() {
+    public void shouldConvertDueDateToString() {
         Date date = new Date();
         String dateString = DATE_FORMATTER.format(date);
         Task task = new Task(21, "project test", "title test", date, true);
@@ -41,11 +40,11 @@ public class DateHelperTest {
         String enteredDate = "09-02-2020";
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         Date date = dateFormat.parse(enteredDate);
-        assertEquals(date, DateHelper.toDate(enteredDate));
+        assertEquals(date, toDate(enteredDate));
     }
 
     @Test
     public void shouldBeNullWhenEnterAnInvalidDate() {
-        assertNull(DateHelper.toDate("21212"));
+        assertNull(toDate("21212"));
     }
 }

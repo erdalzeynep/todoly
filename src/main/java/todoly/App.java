@@ -18,16 +18,15 @@ import java.util.Scanner;
 
 public class App {
 
-    public static Integer maxID;
-    private final File dataFile;
-    private Scanner scanner;
-
     public static void main(String[] args) throws IOException {
         File dataFile = FileHelper.getDataFile();
         App td = new App(dataFile);
         td.startApp();
     }
 
+    public static Integer maxID;
+    private final File dataFile;
+    private Scanner scanner;
     private HashMap<String, Action> validActions;
     public ArrayList<Task> taskStore;
 
@@ -55,8 +54,6 @@ public class App {
 
         while (!finished) {
             String enteredCommand;
-
-            //enteredCommand = scanner.readLine();
             enteredCommand = scanner.nextLine();
 
             finished = processCommand(enteredCommand);
